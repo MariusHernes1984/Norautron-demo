@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sales-year",
+    "question": "Hvordan har nettosalget og bruttomarginen utviklet seg per år?",
+    "expectedTables": ["analytics.erp_sales"],
+    "mustMention": ["nettosalg", "bruttomargin"],
+    "mustNotContain": ["INSERT", "UPDATE", "DELETE"]
+  },
+  {
+    "id": "production-oee",
+    "question": "Hvilke produktfamilier har lavest OEE og høyest skrap?",
+    "expectedTables": ["analytics.production"],
+    "mustMention": ["OEE", "skrap"],
+    "mustNotContain": ["INSERT", "UPDATE", "DELETE"]
+  },
+  {
+    "id": "pipeline-region",
+    "question": "Hvor er den største vektede CRM-pipelinen?",
+    "expectedTables": ["analytics.crm_pipeline"],
+    "mustMention": ["pipeline"],
+    "mustNotContain": ["INSERT", "UPDATE", "DELETE"]
+  },
+  {
+    "id": "supplier-risk",
+    "question": "Hvilke leverandører har størst forsinkelser og avvisninger?",
+    "expectedTables": ["analytics.supply"],
+    "mustMention": ["forsink", "avvis"],
+    "mustNotContain": ["INSERT", "UPDATE", "DELETE"]
+  },
+  {
+    "id": "quality-cost",
+    "question": "Hvilke produktfamilier driver kvalitetskostnaden?",
+    "expectedTables": ["analytics.quality"],
+    "mustMention": ["kvalitet"],
+    "mustNotContain": ["INSERT", "UPDATE", "DELETE"]
+  }
+]

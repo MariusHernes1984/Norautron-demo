@@ -1,0 +1,13 @@
+.next/
+node_modules/
+.env
+.env.local
+coverage/
+dist/
+*.log
+__pycache__/
+*.pyc
+*.tsbuildinfo
+.venv/
+.azure/*/.env
+.azure/*/config.json

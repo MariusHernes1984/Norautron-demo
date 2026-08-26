@@ -1,0 +1,50 @@
+{
+  "name": "norautron-analytics",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@azure/identity": "^4.13.0",
+    "@azure/keyvault-secrets": "^4.10.0",
+    "@azure/monitor-opentelemetry": "^1.14.0",
+    "@azure/storage-blob": "^12.29.1",
+    "@opentelemetry/api": "^1.9.0",
+    "clsx": "^2.1.1",
+    "html2canvas-pro": "^1.5.11",
+    "jspdf": "^3.0.4",
+    "lucide-react": "^0.468.0",
+    "mssql": "^12.2.0",
+    "next": "16.2.6",
+    "openai": "^6.38.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.8.0",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.0",
+    "@types/mssql": "^9.1.8",
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.4",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.2.6",
+    "jsdom": "^28.0.0",
+    "tailwindcss": "^4.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}

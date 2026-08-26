@@ -1,0 +1,21 @@
+name: norautron-analytics
+metadata:
+  template: norautron-analytics@0.1.0
+
+services:
+  web:
+    project: .
+    language: ts
+    host: containerapp
+    docker:
+      path: Dockerfile
+      context: .
+      remoteBuild: true
+
+hooks:
+  postprovision:
+    shell: pwsh
+    run: ./scripts/postprovision.ps1
+  postdeploy:
+    shell: pwsh
+    run: ./scripts/postdeploy.ps1

@@ -1,0 +1,35 @@
+{
+  "title": "Kommersiell status",
+  "subtitle": "Verifiserte KPI-er",
+  "executiveSummary": [
+    {
+      "text": "Nettosalget i utvalget er dokumentert i KPI-grunnlaget.",
+      "factIds": ["sales-total"]
+    }
+  ],
+  "sections": [
+    {
+      "topic": "sales",
+      "title": "Salg og margin",
+      "claims": [
+        {
+          "text": "Bruttomarginen følger det verifiserte salgsgrunnlaget.",
+          "factIds": ["sales-margin"]
+        }
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "text": "Marginen bør følges opp.",
+      "factIds": ["sales-margin"]
+    }
+  ],
+  "actions": [
+    {
+      "text": "Vurder tiltak basert på nettosalg og margin.",
+      "factIds": ["sales-total", "sales-margin"]
+    }
+  ],
+  "methodology": "KPI-er er aggregert fra den aktive datasetversjonen."
+}
