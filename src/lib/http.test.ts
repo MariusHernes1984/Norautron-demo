@@ -45,6 +45,21 @@ describe("anonymous HTTP guardrails", () => {
     ).toBe(false);
   });
 
+  it("uses trusted forwarded host metadata behind the Container Apps proxy", () => {
+    const proxied = new NextRequest("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        origin: "https://pilot.example",
+        "x-forwarded-host": "pilot.example",
+        "x-forwarded-proto": "https",
+        "sec-fetch-site": "same-origin"
+      },
+      body: "{}"
+    });
+    expect(isSameOrigin(proxied)).toBe(true);
+  });
+
   it("reads valid JSON without trusting content length", async () => {
     const result = await readBoundedJson(request('{"question":"hei"}'), 64);
     expect(result).toEqual({

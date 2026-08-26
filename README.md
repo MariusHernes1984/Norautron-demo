@@ -110,6 +110,13 @@ spørsmål, samtaletekst, prompts eller SQL-tekst.
 Løsningen er klargjort for abonnementet `NO-KATEDEV-KATE-PROD` og Sweden
 Central med Azure Developer CLI og Bicep:
 
+**Deployed pilot:**
+
+https://ca-norautron-4j6ku4wv.salmonstone-bd2b1b80.swedencentral.azurecontainerapps.io/
+
+Miljøet heter `norautron-n8v2` og ligger i ressursgruppen
+`rg-norautron-analytics-norautron-n8v2`.
+
 ```powershell
 azd env new dev --no-prompt
 azd env set AZURE_SUBSCRIPTION_ID 59aae656-c78b-4bc5-bcfd-e31748e6f6e2

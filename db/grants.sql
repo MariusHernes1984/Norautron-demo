@@ -1,11 +1,11 @@
 :setvar WebIdentityName "ca-norautron-analytics-dev"
 :setvar IngestIdentityName "job-norautron-ingest-dev"
-:setvar WebIdentityObjectId "00000000-0000-0000-0000-000000000000"
-:setvar IngestIdentityObjectId "00000000-0000-0000-0000-000000000000"
+:setvar WebIdentityClientId "00000000-0000-0000-0000-000000000000"
+:setvar IngestIdentityClientId "00000000-0000-0000-0000-000000000000"
 
 DECLARE @webSidBinary varbinary(16) = CONVERT(
   varbinary(16),
-  CONVERT(uniqueidentifier, '$(WebIdentityObjectId)')
+  CONVERT(uniqueidentifier, '$(WebIdentityClientId)')
 );
 IF EXISTS (
   SELECT 1
@@ -24,7 +24,7 @@ BEGIN
 END;
 DECLARE @ingestSidBinary varbinary(16) = CONVERT(
   varbinary(16),
-  CONVERT(uniqueidentifier, '$(IngestIdentityObjectId)')
+  CONVERT(uniqueidentifier, '$(IngestIdentityClientId)')
 );
 IF EXISTS (
   SELECT 1

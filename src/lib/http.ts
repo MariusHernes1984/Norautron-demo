@@ -90,7 +90,23 @@ export function isSameOrigin(request: NextRequest) {
     return false;
   }
   try {
-    return new URL(origin).origin === request.nextUrl.origin;
+    const forwardedHost = request.headers
+      .get("x-forwarded-host")
+      ?.split(",")[0]
+      ?.trim();
+    const host = forwardedHost || request.headers.get("host");
+    const forwardedProtocol = request.headers
+      .get("x-forwarded-proto")
+      ?.split(",")[0]
+      ?.trim();
+    const protocol =
+      forwardedProtocol ||
+      request.nextUrl.protocol.replace(":", "") ||
+      "https";
+    const expectedOrigin = host
+      ? new URL(`${protocol}://${host}`).origin
+      : request.nextUrl.origin;
+    return new URL(origin).origin === expectedOrigin;
   } catch {
     return false;
   }

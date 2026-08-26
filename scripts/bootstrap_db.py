@@ -50,12 +50,12 @@ def execute_file(connection: pyodbc.Connection, path: Path) -> None:
             "$(IngestIdentityName)", os.environ["AZURE_INGEST_JOB_NAME"]
         )
         text = text.replace(
-            "$(WebIdentityObjectId)",
-            os.environ["AZURE_CONTAINER_APP_PRINCIPAL_ID"],
+            "$(WebIdentityClientId)",
+            os.environ["AZURE_CONTAINER_APP_CLIENT_ID"],
         )
         text = text.replace(
-            "$(IngestIdentityObjectId)",
-            os.environ["AZURE_INGEST_JOB_PRINCIPAL_ID"],
+            "$(IngestIdentityClientId)",
+            os.environ["AZURE_INGEST_JOB_CLIENT_ID"],
         )
     for index, batch in enumerate(batches(text), start=1):
         try:

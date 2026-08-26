@@ -1,6 +1,6 @@
 # Azure Deployment Plan
 
-> **Status:** Validated
+> **Status:** Deployed
 
 Generated: 2026-08-26
 
@@ -158,9 +158,9 @@ Foundry deployment metadata, and official Azure service limits.
 
 ### Phase 4: Deployment
 
-- [ ] Invoke `azure-deploy` only after validation and explicit deployment intent
-- [ ] Verify deployed endpoints and ingestion
-- [ ] Set status to `Deployed`
+- [x] Invoke `azure-deploy` after explicit cost/deployment approval
+- [x] Verify deployed endpoints and ingestion
+- [x] Set status to `Deployed`
 
 ## 8. Validation Proof
 
@@ -228,6 +228,60 @@ build, Docker contexts, and AZD preview were validated without that mutation.
 
 ## 11. Next Steps
 
-1. Invoke `azure-deploy` to provision and deploy the validated solution.
-2. Verify the live Container App, data ingestion, managed identities and model
-   response before changing status to `Deployed`.
+1. Merge the pull request after review.
+2. Monitor Application Insights, Azure SQL usage and GPT-5.6-Terra consumption
+   during the anonymous pilot.
+
+## 12. Deployment Verification
+
+- **Environment:** `norautron-n8v2`
+- **Subscription:** `NO-KATEDEV-KATE-PROD`
+  (`59aae656-c78b-4bc5-bcfd-e31748e6f6e2`)
+- **Location:** Sweden Central
+- **Resource group:** `rg-norautron-analytics-norautron-n8v2`
+- **Web endpoint:**
+  `https://ca-norautron-4j6ku4wv.salmonstone-bd2b1b80.swedencentral.azurecontainerapps.io/`
+- **Azure Portal:**
+  `https://portal.azure.com/#@/resource/subscriptions/59aae656-c78b-4bc5-bcfd-e31748e6f6e2/resourceGroups/rg-norautron-analytics-norautron-n8v2/overview`
+
+### Runtime checks
+
+| Check | Result |
+|---|---|
+| Container App revision | Active, `Healthy`, one replica |
+| `/` | HTTP 200 |
+| `/api/health` | HTTP 200 |
+| `/api/ready` | HTTP 200, dataset `active` |
+| `/api/dataset` | HTTP 200, five sources and 70,000 rows |
+| Live chat | HTTP 200 SSE; SQL evidence and GPT-5.6-Terra answer returned |
+| Live report | HTTP 200 SSE; KPI QA, persistence and report library verified |
+| Latest ingest execution | `job-norautron-4j6ku4wv-swkpkry` - `Succeeded` |
+| Active dataset | `DC980FAD-ACE6-4F6A-9A02-A4A05D5682E1`, 70,000 rows |
+| Source row counts | Production 18,000; ERP 20,000; CRM 5,000; Quality 15,000; Supply 12,000 |
+
+### Live role verification
+
+- **Web identity:** `AcrPull`, `Key Vault Secrets User`,
+  `Monitoring Metrics Publisher`, and `Cognitive Services OpenAI User`.
+- **Ingest identity:** `AcrPull`, `Storage Blob Data Reader`, and
+  `Monitoring Metrics Publisher`.
+- **Deployment identity:** `AcrPush`, `Storage Blob Data Contributor`, and
+  `Key Vault Secrets Officer`.
+- **Azure SQL:** web and ingest external users use the managed identities'
+  application/client IDs and their least-privilege grants are active.
+
+### Deployment remediations
+
+- Replaced the local ODBC dependency in database bootstrap with the existing
+  Node Azure Identity/mssql stack.
+- Added an explicit system-identity ACR registry link before web deployment.
+- Made ACR Task execution asynchronous with polling to avoid Windows console
+  encoding failures.
+- Corrected Azure SQL managed-identity users to use client/application IDs
+  rather than object IDs.
+- Normalized decimal scale before pyodbc bulk insert and removed a nested SQL
+  transaction that prevented activation from committing.
+- Made same-origin validation proxy-aware through trusted forwarded host and
+  protocol metadata.
+
+**Deployment timestamp:** 2026-08-26

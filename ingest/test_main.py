@@ -106,7 +106,7 @@ class RowValidationTests(unittest.TestCase):
         rows = main.validate_source_rows(
             small_source(), small_source()["headers"], self.valid_rows()
         )
-        self.assertEqual(str(rows[0][2]), "1.25")
+        self.assertEqual(str(rows[0][2]), "1.2500")
         self.assertIsNone(rows[0][3])
 
     def test_rejects_header_order_mismatch(self) -> None:
@@ -323,6 +323,8 @@ class SqlContractTests(unittest.TestCase):
             "supply_summary",
         ):
             self.assertIn(f"CREATE OR ALTER VIEW metrics.{view}", self.sql)
+        source = (ROOT / "ingest" / "main.py").read_text(encoding="utf-8")
+        self.assertNotIn('"BEGIN TRANSACTION;"', source)
 
     def test_identity_grants_are_least_privilege_by_role(self) -> None:
         self.assertIn("GRANT SELECT ON SCHEMA::analytics", self.grants)
@@ -343,11 +345,18 @@ class IntegrationContractTests(unittest.TestCase):
         upload = script.index("'storage', 'blob', 'upload'")
         self.assertLess(validation, upload)
         self.assertIn("'--auth-mode', 'login'", script)
+        self.assertIn("bootstrap_db.mjs", script)
+        self.assertIn("AZURE_CONTAINER_APP_CLIENT_ID", script)
+        self.assertIn("AZURE_INGEST_JOB_CLIENT_ID", script)
         self.assertIn("db\\schema.sql", script)
         self.assertIn("db\\grants.sql", script)
 
     def test_postdeploy_waits_for_ingestion_success(self) -> None:
         script = POSTDEPLOY.read_text(encoding="utf-8")
+        self.assertIn("'--no-logs'", script)
+        self.assertIn("'--no-wait'", script)
+        self.assertIn("'acr', 'task', 'show-run'", script)
+        self.assertIn("Ingestion image build", script)
         self.assertIn("'containerapp', 'job', 'start'", script)
         self.assertIn("'containerapp', 'job', 'execution', 'list'", script)
         self.assertIn("$status -eq 'Succeeded'", script)

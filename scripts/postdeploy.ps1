@@ -1,4 +1,7 @@
 $ErrorActionPreference = 'Stop'
+$env:PYTHONUTF8 = '1'
+$env:PYTHONIOENCODING = 'utf-8'
+$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
 
 $required = @(
   'AZURE_ENV_NAME',
@@ -45,8 +48,49 @@ try {
     '--image', "norautron-ingest:$($env:AZURE_ENV_NAME)",
     '--file', 'ingest/Dockerfile',
     '.',
+    '--no-logs',
+    '--no-wait',
+    '--output', 'none',
     '--only-show-errors'
   )
+  $buildRunId = Invoke-AzWithRetry -Arguments @(
+    'acr', 'task', 'list-runs',
+    '--registry', $env:AZURE_CONTAINER_REGISTRY_NAME,
+    '--top', '1',
+    '--query', '[0].runId',
+    '--output', 'tsv',
+    '--only-show-errors'
+  )
+  $buildRunId = $buildRunId.Trim()
+  if (-not $buildRunId) {
+    throw 'ACR build did not return a run ID.'
+  }
+
+  $buildDeadline = [DateTimeOffset]::UtcNow.AddMinutes(30)
+  do {
+    Start-Sleep -Seconds 15
+    $buildStatus = Invoke-AzWithRetry -Arguments @(
+      'acr', 'task', 'show-run',
+      '--registry', $env:AZURE_CONTAINER_REGISTRY_NAME,
+      '--run-id', $buildRunId,
+      '--query', 'status',
+      '--output', 'tsv',
+      '--only-show-errors'
+    )
+    $buildStatus = $buildStatus.Trim()
+    if ($buildStatus -eq 'Succeeded') {
+      Write-Host "Ingestion image build succeeded: $buildRunId"
+      break
+    }
+    if ($buildStatus -in @('Failed', 'Canceled', 'Error')) {
+      throw "Ingestion image build $buildRunId ended with status $buildStatus."
+    }
+    Write-Host "Ingestion image build $buildRunId status: $($buildStatus ? $buildStatus : 'Pending')"
+  } while ([DateTimeOffset]::UtcNow -lt $buildDeadline)
+
+  if ($buildStatus -ne 'Succeeded') {
+    throw "Timed out waiting for ingestion image build $buildRunId."
+  }
 }
 finally {
   Pop-Location

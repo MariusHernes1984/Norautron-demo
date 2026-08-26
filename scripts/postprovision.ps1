@@ -165,13 +165,38 @@ $null = Invoke-AzWithRetry -Arguments @(
 $firewallCreated = $true
 
 try {
+  $env:AZURE_CONTAINER_APP_CLIENT_ID = (
+    Invoke-AzWithRetry -Arguments @(
+      'ad', 'sp', 'show',
+      '--id', $env:AZURE_CONTAINER_APP_PRINCIPAL_ID,
+      '--query', 'appId',
+      '--output', 'tsv',
+      '--only-show-errors'
+    )
+  ).Trim()
+  $env:AZURE_INGEST_JOB_CLIENT_ID = (
+    Invoke-AzWithRetry -Arguments @(
+      'ad', 'sp', 'show',
+      '--id', $env:AZURE_INGEST_JOB_PRINCIPAL_ID,
+      '--query', 'appId',
+      '--output', 'tsv',
+      '--only-show-errors'
+    )
+  ).Trim()
+  if (
+    -not $env:AZURE_CONTAINER_APP_CLIENT_ID -or
+    -not $env:AZURE_INGEST_JOB_CLIENT_ID
+  ) {
+    throw 'Could not resolve managed identity client IDs for SQL grants.'
+  }
+
   $bootstrapArguments = @(
-    (Join-Path $PSScriptRoot 'bootstrap_db.py'),
+    (Join-Path $PSScriptRoot 'bootstrap_db.mjs'),
     (Join-Path $projectRoot 'db\schema.sql'),
     (Join-Path $projectRoot 'db\grants.sql')
   )
   for ($attempt = 1; $attempt -le 6; $attempt++) {
-    & $python @bootstrapArguments
+    & node @bootstrapArguments
     if ($LASTEXITCODE -eq 0) {
       break
     }

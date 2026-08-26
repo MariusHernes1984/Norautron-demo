@@ -316,7 +316,7 @@ def _is_expected_type(value: Any, expected_type: str) -> bool:
     return False
 
 
-def normalize_value(value: Any, expected_type: str) -> Any:
+def normalize_value(value: Any, expected_type: str, column: str) -> Any:
     if value is None:
         return None
     if expected_type == "date":
@@ -324,7 +324,9 @@ def normalize_value(value: Any, expected_type: str) -> Any:
     if expected_type == "datetime":
         return value.replace(tzinfo=None)
     if expected_type == "decimal":
-        return Decimal(str(value))
+        scale = 8 if column.endswith("_pct") else 4
+        quantum = Decimal(1).scaleb(-scale)
+        return Decimal(str(value)).quantize(quantum)
     return value
 
 
@@ -376,7 +378,7 @@ def validate_source_rows(
                     f"{source['sheet']} row {excel_row} column "
                     f"{source['headers'][index]} cannot be blank"
                 )
-            normalized.append(normalize_value(value, expected_type))
+            normalized.append(normalize_value(value, expected_type, column))
 
         primary_value = normalized[primary_index]
         if isinstance(primary_value, str):
@@ -521,8 +523,7 @@ def activate(
     try:
         cursor.execute(
             "SET XACT_ABORT ON; "
-            "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; "
-            "BEGIN TRANSACTION;"
+            "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;"
         )
         lock_result = cursor.execute(
             """
