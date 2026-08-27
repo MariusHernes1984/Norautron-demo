@@ -1,0 +1,163 @@
+{
+  "expectedTotalRows": 70000,
+  "sources": [
+    {
+      "sheet": "Produksjon",
+      "table": "production",
+      "primaryColumn": 0,
+      "expectedRows": 18000,
+      "headers": [
+        "ProduksjonsID", "Fabrikk", "Produksjonslinje", "Skift",
+        "Produksjonsdato", "Starttid", "Sluttid", "Arbeidsordre",
+        "ERP_OrdreID", "CRM_MulighetID", "ProduktID", "Produktfamilie",
+        "Produktnavn", "KundeID", "Kunde", "PlanlagtAntall",
+        "ProdusertAntall", "GodkjentAntall", "SkrapAntall",
+        "OmstillingMin", "SyklustidSek", "PlanlagtSyklustidSek",
+        "MaskinUtnyttelsePct", "OEEPct", "EnergiforbrukKWh",
+        "Operatorteam", "Produksjonsstatus"
+      ],
+      "columns": [
+        "produksjons_id", "fabrikk", "produksjonslinje", "skift",
+        "produksjonsdato", "starttid", "sluttid", "arbeidsordre",
+        "erp_ordre_id", "crm_mulighet_id", "produkt_id", "produktfamilie",
+        "produktnavn", "kunde_id", "kunde", "planlagt_antall",
+        "produsert_antall", "godkjent_antall", "skrap_antall",
+        "omstilling_min", "syklustid_sek", "planlagt_syklustid_sek",
+        "maskin_utnyttelse_pct", "oee_pct", "energiforbruk_kwh",
+        "operatorteam", "produksjonsstatus"
+      ],
+      "types": [
+        "string", "string", "string", "string", "date", "datetime",
+        "datetime", "string", "string", "string", "string", "string",
+        "string", "string", "string", "integer", "integer", "integer",
+        "integer", "integer", "decimal", "decimal", "decimal", "decimal",
+        "decimal", "string", "string"
+      ],
+      "nullableColumns": ["crm_mulighet_id"]
+    },
+    {
+      "sheet": "ERP_Salg",
+      "table": "erp_sales",
+      "primaryColumn": 1,
+      "expectedRows": 20000,
+      "headers": [
+        "Fakturadato", "FakturaID", "ERP_OrdreID", "Ordrelinje",
+        "KundeID", "Kunde", "Segment", "Land", "Region", "Salgskanal",
+        "Selger", "ProduktID", "Produktfamilie", "Produktnavn", "Antall",
+        "EnhetsprisNOK", "RabattsatsPct", "BruttosalgNOK", "RabattNOK",
+        "NettosalgNOK", "COGSNOK", "BruttomarginNOK",
+        "BruttomarginPct", "Betalingsbetingelse", "Betalingsstatus",
+        "CRM_MulighetID"
+      ],
+      "columns": [
+        "fakturadato", "faktura_id", "erp_ordre_id", "ordrelinje",
+        "kunde_id", "kunde", "segment", "land", "region", "salgskanal",
+        "selger", "produkt_id", "produktfamilie", "produktnavn", "antall",
+        "enhetspris_nok", "rabattsats_pct", "bruttosalg_nok", "rabatt_nok",
+        "nettosalg_nok", "cogs_nok", "bruttomargin_nok",
+        "bruttomargin_pct", "betalingsbetingelse", "betalingsstatus",
+        "crm_mulighet_id"
+      ],
+      "types": [
+        "date", "string", "string", "integer", "string", "string",
+        "string", "string", "string", "string", "string", "string",
+        "string", "string", "integer", "decimal", "decimal", "decimal",
+        "decimal", "decimal", "decimal", "decimal", "decimal", "string",
+        "string", "string"
+      ],
+      "nullableColumns": ["crm_mulighet_id"]
+    },
+    {
+      "sheet": "CRM_Pipeline",
+      "table": "crm_pipeline",
+      "primaryColumn": 0,
+      "expectedRows": 5000,
+      "headers": [
+        "CRM_MulighetID", "KundeID", "Kunde", "Segment", "Region", "Eier",
+        "Salgsfase", "SannsynlighetPct", "EstimertVerdiNOK",
+        "VektetVerdiNOK", "Produktfamilie", "Losningstype",
+        "OpprettetDato", "ForventetLukkedato", "NesteAktivitet",
+        "DagerIPipeline", "Konkurrent", "Avslutningsgrunn", "Status",
+        "LeadKilde", "Kvalifiseringsscore", "ERP_OrdreID", "SistOppdatert"
+      ],
+      "columns": [
+        "crm_mulighet_id", "kunde_id", "kunde", "segment", "region", "eier",
+        "salgsfase", "sannsynlighet_pct", "estimert_verdi_nok",
+        "vektet_verdi_nok", "produktfamilie", "losningstype",
+        "opprettet_dato", "forventet_lukkedato", "neste_aktivitet",
+        "dager_i_pipeline", "konkurrent", "avslutningsgrunn", "status",
+        "lead_kilde", "kvalifiseringsscore", "erp_ordre_id", "sist_oppdatert"
+      ],
+      "types": [
+        "string", "string", "string", "string", "string", "string",
+        "string", "decimal", "decimal", "decimal", "string", "string",
+        "date", "date", "date", "integer", "string", "string", "string",
+        "string", "integer", "string", "datetime"
+      ],
+      "nullableColumns": ["avslutningsgrunn", "erp_ordre_id"]
+    },
+    {
+      "sheet": "Kvalitet",
+      "table": "quality",
+      "primaryColumn": 0,
+      "expectedRows": 15000,
+      "headers": [
+        "AvviksID", "RegistrertTid", "Fabrikk", "Produksjonslinje", "Skift",
+        "Arbeidsordre", "ProduktID", "Produktfamilie", "KundeID",
+        "LeverandorID", "Avvikskategori", "Feilkode", "Alvorlighet",
+        "OppdagetVed", "BerortAntall", "DefektAntall", "DefektratePct",
+        "KostnadNOK", "Rotarsaksstatus", "KorrigerendeTiltak",
+        "AnsvarligTeam", "Forfallsdato", "LukketDato", "Status",
+        "ERP_OrdreID"
+      ],
+      "columns": [
+        "avviks_id", "registrert_tid", "fabrikk", "produksjonslinje", "skift",
+        "arbeidsordre", "produkt_id", "produktfamilie", "kunde_id",
+        "leverandor_id", "avvikskategori", "feilkode", "alvorlighet",
+        "oppdaget_ved", "berort_antall", "defekt_antall", "defektrate_pct",
+        "kostnad_nok", "rotarsaksstatus", "korrigerende_tiltak",
+        "ansvarlig_team", "forfallsdato", "lukket_dato", "status",
+        "erp_ordre_id"
+      ],
+      "types": [
+        "string", "datetime", "string", "string", "string", "string",
+        "string", "string", "string", "string", "string", "string",
+        "string", "string", "integer", "integer", "decimal", "decimal",
+        "string", "string", "string", "date", "date", "string", "string"
+      ],
+      "nullableColumns": ["lukket_dato"]
+    },
+    {
+      "sheet": "Forsyning",
+      "table": "supply",
+      "primaryColumn": 0,
+      "expectedRows": 12000,
+      "headers": [
+        "BevegelseID", "Dato", "Fabrikk", "Lagerlokasjon", "LeverandorID",
+        "Leverandor", "Leverandorland", "Innkjopsordre", "PO_Linje",
+        "ProduktID", "Produktfamilie", "Produktnavn", "Bevegelsestype",
+        "BestiltAntall", "MottattAntall", "AvvistAntall", "Enhet",
+        "StandardLedetidDager", "FaktiskLedetidDager",
+        "ForsinkelseDager", "EnhetskostNOK", "TotalkostNOK", "Incoterm",
+        "Transportmodus", "Lagerstatus", "ERP_OrdreID"
+      ],
+      "columns": [
+        "bevegelse_id", "dato", "fabrikk", "lagerlokasjon", "leverandor_id",
+        "leverandor", "leverandorland", "innkjopsordre", "po_linje",
+        "produkt_id", "produktfamilie", "produktnavn", "bevegelsestype",
+        "bestilt_antall", "mottatt_antall", "avvist_antall", "enhet",
+        "standard_ledetid_dager", "faktisk_ledetid_dager",
+        "forsinkelse_dager", "enhetskost_nok", "totalkost_nok", "incoterm",
+        "transportmodus", "lagerstatus", "erp_ordre_id"
+      ],
+      "types": [
+        "string", "date", "string", "string", "string", "string", "string",
+        "string", "integer", "string", "string", "string", "string",
+        "integer", "integer", "integer", "string", "integer", "integer",
+        "integer", "decimal", "decimal", "string", "string", "string",
+        "string"
+      ],
+      "nullableColumns": ["erp_ordre_id"]
+    }
+  ]
+}

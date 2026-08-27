@@ -1,0 +1,33 @@
+[
+  {
+    "id": "executive",
+    "topics": ["executive", "sales", "production"],
+    "expectedKpis": [
+      "net-sales",
+      "gross-margin",
+      "oee",
+      "defect-rate",
+      "approved-units"
+    ]
+  },
+  {
+    "id": "operations",
+    "topics": ["production", "quality", "supply"],
+    "expectedKpis": [
+      "approved-units",
+      "scrap-share",
+      "quality-rate",
+      "quality-cost",
+      "supply-delay"
+    ]
+  },
+  {
+    "id": "commercial",
+    "topics": ["sales", "pipeline"],
+    "expectedKpis": [
+      "sales-total",
+      "sales-margin",
+      "pipeline-weighted"
+    ]
+  }
+]

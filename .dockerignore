@@ -1,0 +1,15 @@
+.git
+.github
+.azure
+.next
+node_modules
+coverage
+dist
+out
+.env*
+Norautron_syntetiske_data.xlsx
+tests
+__pycache__
+*.py[cod]
+npm-debug.log*
+*.md
